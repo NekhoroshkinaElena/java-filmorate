@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("users")
-    public User createUser(@Valid @RequestBody User user) throws ValidationException {
+    public User createUser(@RequestBody User user) throws ValidationException {
         if (users.containsValue(user)) {
             log.info("Пользователь уже существует");
             throw new ValidationException("Пользователь уже существует");
