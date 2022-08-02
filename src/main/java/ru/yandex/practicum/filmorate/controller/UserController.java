@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @Slf4j
 public class UserController {
-    private HashMap<Integer, User> users = new HashMap<>();
+    private final HashMap<Integer, User> users = new HashMap<>();
     int currentId = 1;
 
     private int getUniqueID() {
