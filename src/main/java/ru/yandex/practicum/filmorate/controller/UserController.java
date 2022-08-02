@@ -30,16 +30,20 @@ public class UserController {
         if (users.containsValue(user)) {
             log.info("Пользователь уже существует");
             throw new ValidationException("Пользователь уже существует");
-        } else if (user.getLogin().contains(" ")) {
+        }
+        if (user.getLogin().contains(" ")) {
             log.info("логин не может быть пустым и содержать пробелы");
             throw new ValidationException("логин не может быть пустым и содержать пробелы");
-        } else if (user.getEmail().isEmpty() || !user.getEmail().contains("@")) {
+        }
+        if (user.getEmail().isEmpty() || !user.getEmail().contains("@")) {
             log.info("электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("электронная почта не может быть пустой и должна содержать символ @");
-        } else if (user.getLogin().isEmpty() || user.getLogin().isBlank()) {
+        }
+        if (user.getLogin().isEmpty() || user.getLogin().isBlank()) {
             log.info("логин не может быть пустым и содержать пробелы");
             throw new ValidationException("логин не может быть пустым и содержать пробелы");
-        } else if (user.getBirthday().isAfter(LocalDate.now())) {
+        }
+        if (user.getBirthday().isAfter(LocalDate.now())) {
             log.info("дата рождения не может быть в будущем");
             throw new ValidationException("дата рождения не может быть в будущем");
         }

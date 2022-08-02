@@ -90,7 +90,7 @@ public class UserControllerTest {
         User userUpdate = new User("elena@mail.ruUpdate", "Lena_nekhoroshkinaUpdate", "Elena",
                 LocalDate.of(2003, 7, 22));
         userUpdate.setId(user.getId());
-        userController.update(userUpdate);
-        assertEquals(List.of(userUpdate), userController.findAll());
+        User updated = userController.update(userUpdate);
+        assertEquals(userUpdate, updated);
     }
 }

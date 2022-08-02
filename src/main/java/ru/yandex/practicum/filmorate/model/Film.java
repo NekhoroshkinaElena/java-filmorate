@@ -7,10 +7,10 @@ import java.time.LocalDate;
 @Data
 public class Film {
     private int id;
-    private final String name;
-    private final String description;
-    private final LocalDate releaseDate;
-    private final long duration;
+    private String name;
+    private String description;
+    private LocalDate releaseDate;
+    private long duration;
     private int rate;
 
     public Film(String name, String description, LocalDate releaseDate, long duration, int rate) {

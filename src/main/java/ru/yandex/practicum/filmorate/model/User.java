@@ -8,9 +8,9 @@ import java.time.LocalDate;
 public class User {
     private int id;
     private String name;
-    private final String email;
-    private final String login;
-    private final LocalDate birthday;
+    private String email;
+    private String login;
+    private LocalDate birthday;
 
     public User(String email, String login, String name, LocalDate birthday) {
         this.email = email;
