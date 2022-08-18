@@ -27,7 +27,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User createUser(User user) throws ValidationException {
+    public User createUser(User user) {
         if (users.containsValue(user)) {
             log.error("Пользователь уже существует");
             throw new ValidationException("Пользователь уже существует");
@@ -59,7 +59,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User updateUser(User user) throws ValidationException {
+    public User updateUser(User user) {
         if (user.getId() < 0) {
             log.error("id не может быть отрицательным числом");
             throw new UserNotFoundException("id не может быть отрицательным числом");
@@ -74,7 +74,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUser(long id) throws UserNotFoundException {
+    public User getUser(long id) {
         if (id < 0) {
             log.error("id не может быть отрицательным числом");
             throw new UserNotFoundException("id не может быть отрицательным числом");

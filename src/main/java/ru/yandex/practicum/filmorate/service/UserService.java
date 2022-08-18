@@ -18,7 +18,7 @@ public class UserService {
         this.userStorage = userStorage;
     }
 
-    public void addFriend(long id, long friendId) throws UserNotFoundException {
+    public void addFriend(long id, long friendId) {
         if (id < 0 || friendId < 0) {
             log.error("id не может быть отрицательным числом");
             throw new UserNotFoundException("id не может быть отрицательным числом");
@@ -27,7 +27,7 @@ public class UserService {
         userStorage.getUser(friendId).addFriend(id);
     }
 
-    public List<User> getListFriends(Long id) throws UserNotFoundException {
+    public List<User> getListFriends(Long id) {
         if (id < 0) {
             log.error("id не может быть отрицательным числом");
             throw new UserNotFoundException("id не может быть отрицательным числом");
@@ -39,7 +39,7 @@ public class UserService {
         return friends;
     }
 
-    public void deleteFriend(long userId, long friendId) throws UserNotFoundException {
+    public void deleteFriend(long userId, long friendId) {
         if (userId < 0 || friendId < 0) {
             log.error("id не может быть отрицательным числом");
             throw new UserNotFoundException("id не может быть отрицательным числом");
@@ -48,7 +48,7 @@ public class UserService {
         userStorage.getUser(friendId).deleteFriend(userId);
     }
 
-    public List<User> getListCommonFriends(long id, long otherId) throws UserNotFoundException {
+    public List<User> getListCommonFriends(long id, long otherId) {
         List<User> commonFriends = new ArrayList<>();
         for (long i : userStorage.getUser(id).getFriends()) {
             if (userStorage.getUser(otherId).getFriends().contains(i)) {

@@ -27,7 +27,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film createFilm(Film film) throws ValidationException {
+    public Film createFilm(Film film) {
         if (film.getName() == null || film.getName().isEmpty()) {
             log.error("название не может быть пустым");
             throw new ValidationException("название не может быть пустым");
@@ -56,7 +56,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film updateFilm(Film film) throws FilmNotFoundException {
+    public Film updateFilm(Film film) {
         if (film.getId() < 0) {
             log.error("id фильма не может быть отрицательным числом");
             throw new FilmNotFoundException("id фильма не может быть отрицательным числом");

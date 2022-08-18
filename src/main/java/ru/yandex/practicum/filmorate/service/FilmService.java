@@ -35,7 +35,7 @@ public class FilmService {
         filmStorage.getFilmById(filmId).deleteLike(userId);
     }
 
-    public List<Film> getTop10Films(int count) {
+    public List<Film> getTopFilms(int count) {
         List<Film> sortedList = new LinkedList<>(filmStorage.getAllFilms());
         return sortedList.stream()
                 .sorted((o1, o2) -> {
