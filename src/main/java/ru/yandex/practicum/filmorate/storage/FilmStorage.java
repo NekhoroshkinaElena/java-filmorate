@@ -5,19 +5,19 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.List;
 
 /***
- * Интерфейс для хранилища фильмов
+ * Интерфейс для хранилища фильмов.
  */
 public interface FilmStorage {
 
     /**
-     * получает все фильмы
+     * Получает все фильмы.
      *
      * @return список всех фильмов
      */
     List<Film> getAllFilms();
 
     /**
-     * создаёт и добавляет фильм
+     * Создаёт и добавляет фильм.
      *
      * @param film фильм
      * @return добавленный фильм
@@ -25,7 +25,7 @@ public interface FilmStorage {
     Film createFilm(Film film);
 
     /**
-     * обновляет фильма
+     * Обновляет фильм.
      *
      * @param film фильм
      * @return обновлённый фильм
@@ -33,7 +33,7 @@ public interface FilmStorage {
     Film updateFilm(Film film);
 
     /**
-     * находит фильм по id
+     * Находит фильм по id.
      *
      * @param id идентификационный номер фильма
      * @return найденный фильм
