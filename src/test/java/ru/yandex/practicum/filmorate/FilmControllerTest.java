@@ -5,21 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
 @SpringBootTest
 public class FilmControllerTest {
-    static FilmController filmController;
+    static InMemoryFilmStorage inMemoryFilmStorage;
 
     @BeforeEach
     public void film() {
-        filmController = new FilmController();
+        this.inMemoryFilmStorage = new InMemoryFilmStorage();
     }
 
     @Test
@@ -28,23 +27,23 @@ public class FilmControllerTest {
                 LocalDate.of(2015, 9, 13), 60, 2);
         Film film2 = new Film("Film2", "description2",
                 LocalDate.of(2016, 9, 13), 60, 2);
-        filmController.create(film);
-        filmController.create(film2);
-        assertEquals(List.of(film, film2), filmController.findAll());
+        inMemoryFilmStorage.createFilm(film);
+        inMemoryFilmStorage.createFilm(film2);
+        assertEquals(List.of(film, film2), inMemoryFilmStorage.getAllFilms());
     }
 
     @Test
     void createFilm() throws ValidationException {
         Film film = new Film("Film", "description",
                 LocalDate.of(2015, 9, 13), 60, 2);
-        assertEquals(film, filmController.create(film));
+        assertEquals(film, inMemoryFilmStorage.createFilm(film));
     }
 
     @Test
     void untitledMovie() throws ValidationException {
         Film film = new Film("", "description",
                 LocalDate.of(2015, 9, 13), 60, 2);
-        assertThrows(ValidationException.class, () -> filmController.create(film));
+        assertThrows(ValidationException.class, () -> inMemoryFilmStorage.createFilm(film));
     }
 
     @Test
@@ -55,33 +54,33 @@ public class FilmControllerTest {
                 "61,62,63,64,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81," +
                 "82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100.",
                 LocalDate.of(2015, 9, 13), 60, 2);
-        assertThrows(ValidationException.class, () -> filmController.create(film));
+        assertThrows(ValidationException.class, () -> inMemoryFilmStorage.createFilm(film));
     }
 
     @Test
     void releaseDate() throws ValidationException {
         Film film = new Film("oldFilm", "description",
                 LocalDate.of(1894, 9, 13), 60, 2);
-        assertThrows(ValidationException.class, () -> filmController.create(film));
+        assertThrows(ValidationException.class, () -> inMemoryFilmStorage.createFilm(film));
     }
 
     @Test
     void duration() throws ValidationException {
         Film film = new Film("oldFilm", "description",
                 LocalDate.of(1994, 9, 13), -60, 2);
-        assertThrows(ValidationException.class, () -> filmController.create(film));
+        assertThrows(ValidationException.class, () -> inMemoryFilmStorage.createFilm(film));
     }
 
     @Test
     void updateFilm() throws ValidationException {
         Film film = new Film("oldFilm", "description",
                 LocalDate.of(1994, 9, 13), 60, 2);
-        filmController.create(film);
+        inMemoryFilmStorage.createFilm(film);
         Film filmUpdate = new Film("newFilm", "description",
                 LocalDate.of(2020, 5, 7), 120, 5);
         filmUpdate.setId(film.getId());
-        filmController.update(filmUpdate);
-        assertEquals(List.of(filmUpdate), filmController.findAll());
+        inMemoryFilmStorage.updateFilm(filmUpdate);
+        assertEquals(List.of(filmUpdate), inMemoryFilmStorage.getAllFilms());
 
     }
 }

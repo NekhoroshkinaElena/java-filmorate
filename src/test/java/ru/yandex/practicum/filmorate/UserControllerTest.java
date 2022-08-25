@@ -6,8 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.UserController;
+import ru.yandex.practicum.filmorate.exeption.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,11 +17,11 @@ import java.util.List;
 
 @SpringBootTest
 public class UserControllerTest {
-    static UserController userController;
+    static InMemoryUserStorage userController;
 
     @BeforeEach
     public void film() {
-        userController = new UserController();
+        userController = new InMemoryUserStorage();
     }
 
     @Test
@@ -30,7 +32,7 @@ public class UserControllerTest {
                 LocalDate.of(1999, 7, 22));
         userController.createUser(user);
         userController.createUser(user2);
-        assertEquals(List.of(user, user2), userController.findAll());
+        assertEquals(List.of(user, user2), userController.getUsers());
     }
 
     @Test
@@ -83,14 +85,14 @@ public class UserControllerTest {
     }
 
     @Test
-    void updateUser() throws ValidationException {
+    void updateUser() throws UserNotFoundException, ValidationException {
         User user = new User("elena@mail.ru", "Lena_nekhoroshkina", "Elena",
                 LocalDate.of(2000, 7, 22));
         userController.createUser(user);
         User userUpdate = new User("elena@mail.ruUpdate", "Lena_nekhoroshkinaUpdate", "Elena",
                 LocalDate.of(2003, 7, 22));
         userUpdate.setId(user.getId());
-        User updated = userController.update(userUpdate);
+        User updated = userController.updateUser(userUpdate);
         assertEquals(userUpdate, updated);
     }
 }
