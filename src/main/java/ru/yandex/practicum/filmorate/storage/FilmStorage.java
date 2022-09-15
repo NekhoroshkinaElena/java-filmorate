@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.controller.model.Film;
 
 import java.util.List;
 
@@ -39,4 +39,10 @@ public interface FilmStorage {
      * @return найденный фильм
      */
     Film getFilmById(long id);
+
+    void addLike(long filmId, long userId);//добавить документацию
+
+    void deleteLike(long filmId, long userId);//добавить документацию
+
+    public List<Film> getTopFilms(int count);//добавить документацию
 }

@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.controller.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Интерфейс для хранилища пользователей.
  */
 public interface UserStorage {
+
+    int getUniqueID();//ДОБАВИТЬ ДОКУМЕНТАЦИЮ!!!
 
     /**
      * Получает список всех пользователей.
@@ -22,7 +25,7 @@ public interface UserStorage {
      * @param id идентификационный номер пользователя
      * @return найденного по id пользователя
      */
-    User getUser(long id);
+    Optional<User> getUserById(long id);
 
     /**
      * Создаёт и добавляет нового пользователя.
@@ -39,4 +42,12 @@ public interface UserStorage {
      * @return данные обновлённого пользователя
      */
     User updateUser(User user);
+
+    void addFriend(long id, long friendId);
+
+    List<User> getListFriends(Long id);
+
+    void deleteFriend(long userId, long friendId);
+
+    List<User> getListCommonFriends(long id, long otherId);
 }
