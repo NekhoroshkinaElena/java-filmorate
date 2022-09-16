@@ -10,7 +10,12 @@ import java.util.Optional;
  */
 public interface UserStorage {
 
-    int getUniqueID();//ДОБАВИТЬ ДОКУМЕНТАЦИЮ!!!
+    /**
+     * Генерирует уникальный идентификатор пользователю.
+     *
+     * @return идентификатор предыдущего пользователя, увеличенный на одну еденицу
+     */
+    int getUniqueID();
 
     /**
      * Получает список всех пользователей.
@@ -43,11 +48,36 @@ public interface UserStorage {
      */
     User updateUser(User user);
 
+    /**
+     * Добавляет друга пользователю.
+     *
+     * @param id       идентификатор пользователя
+     * @param friendId идентификатор пользователя для добавления в друзья
+     */
     void addFriend(long id, long friendId);
 
+    /**
+     * Получает список друзей пользователя.
+     *
+     * @param id идентификатор пользователя
+     * @return список друзей пользователя
+     */
     List<User> getListFriends(Long id);
 
+    /**
+     * Удаляет друга у пользователя.
+     *
+     * @param userId   идентификатор пользователя
+     * @param friendId идентификатор пользователя для удаления из друзей
+     */
     void deleteFriend(long userId, long friendId);
 
+    /**
+     * Получает список общих друзей у двух пользователей.
+     *
+     * @param id      идентификатор пользователя
+     * @param otherId идентификатор другого пользователя
+     * @return список общих друзей двух пользователей
+     */
     List<User> getListCommonFriends(long id, long otherId);
 }

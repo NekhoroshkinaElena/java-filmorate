@@ -7,12 +7,12 @@ import ru.yandex.practicum.filmorate.exeption.ValidationException;
 @Slf4j
 public class ValidateRatingMpa {
 
-    public static void validateMpa(Film film){
-        if(film.getMpa() == null){
+    public static void validateMpa(Film film) {
+        if (film.getMpa() == null) {
             log.error("рейтинг MPA не может быть пустым");
             throw new ValidationException("рейтинг MPA не может быть пустым");
         }
-        if(film.getMpa().id > 5 || film.getMpa().id < 0){
+        if (film.getMpa().id > 5 || film.getMpa().id < 0) {
             log.error("некорректный id MPA рейтинга");
             throw new ValidationException("некорректный id MPA рейтинга");
         }

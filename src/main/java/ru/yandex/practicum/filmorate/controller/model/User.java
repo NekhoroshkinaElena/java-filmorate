@@ -1,13 +1,11 @@
 package ru.yandex.practicum.filmorate.controller.model;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
 @Data
 public class User {
     private long id;

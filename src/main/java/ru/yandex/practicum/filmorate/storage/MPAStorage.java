@@ -4,9 +4,23 @@ import ru.yandex.practicum.filmorate.controller.model.Pair;
 
 import java.util.List;
 
+/***
+ * Интерфейс для хранилища MPA рейтинга.
+ */
 public interface MPAStorage {
 
-    List<Pair> getAllMPA();
+    /**
+     * Получает все рейтинги MPA.
+     *
+     * @return список всех рейтингов MPA
+     */
+    List<Pair<Integer, String>> getAllMPA();
 
-    Pair<Integer, String> getMpaById(int genreId);
+    /**
+     * Находит рейтинг по id.
+     *
+     * @param idMpa идентификационный номер рейтинга
+     * @return номер рейтинга и его название
+     */
+    Pair<Integer, String> getMpaById(int idMpa);
 }

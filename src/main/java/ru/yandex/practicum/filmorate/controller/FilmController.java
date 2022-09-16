@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.controller.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
@@ -20,12 +19,12 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film create(@RequestBody Film film) throws ValidationException {
+    public Film create(@RequestBody Film film) {
         return filmService.createFilm(film);
     }
 
     @PutMapping
-    public Film update(@RequestBody Film film) throws ValidationException {
+    public Film update(@RequestBody Film film) {
         return filmService.updateFilm(film);
     }
 

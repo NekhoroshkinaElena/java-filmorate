@@ -6,21 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import ru.yandex.practicum.filmorate.controller.model.Film;
 import ru.yandex.practicum.filmorate.controller.model.Pair;
-import ru.yandex.practicum.filmorate.controller.model.User;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
-import ru.yandex.practicum.filmorate.storage.impl.FilmDbStorage;
+import ru.yandex.practicum.filmorate.exeption.GenreNotFoundException;
 import ru.yandex.practicum.filmorate.storage.impl.GenreDbStorage;
-import ru.yandex.practicum.filmorate.storage.impl.UserDbStorage;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -45,5 +38,11 @@ public class GenreStorageTest {
     @Test
     public void getGenreById(){
         assertThat(genreDbStorage.getGenreById(3).name).isEqualTo("Мультфильм");
+    }
+
+    @Test
+    public void getGenreByIncorrectId(){
+        assertThrows(GenreNotFoundException.class, () -> genreDbStorage.getGenreById(-1));
+        assertThrows(GenreNotFoundException.class, () -> genreDbStorage.getGenreById(10));
     }
 }

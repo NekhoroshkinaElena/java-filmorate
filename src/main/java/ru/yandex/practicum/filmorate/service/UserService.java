@@ -16,8 +16,6 @@ import java.util.Optional;
 public class UserService {
     private final UserDbStorage userStorage;
 
-    private final JdbcTemplate jdbcTemplate;
-
     public List<User> getUsers() {
         return userStorage.getUsers();
     }

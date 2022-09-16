@@ -7,12 +7,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.controller.model.Pair;
+import ru.yandex.practicum.filmorate.exeption.MpaNotFoundException;
 import ru.yandex.practicum.filmorate.storage.MPAStorage;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -37,5 +38,11 @@ public class MPAStorageTest {
     public void getMpaById(){
         assertThat(mpaStorage.getMpaById(5).name).isEqualTo("NC-17");
         assertThat(mpaStorage.getMpaById(3).name).isEqualTo("PG-13");
+    }
+
+    @Test
+    public void getMpaByIncorrectId(){
+        assertThrows(MpaNotFoundException.class, () -> mpaStorage.getMpaById(-1));
+        assertThrows(MpaNotFoundException.class, () -> mpaStorage.getMpaById(10));
     }
 }

@@ -14,11 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("mpa")
 public class MpaController {
-
     private final MPAService mpaService;
 
     @GetMapping
-    public List<Pair> getAllMpa() {
+    public List<Pair<Integer, String>> getAllMpa() {
         return mpaService.getAllMPA();
     }
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controller.model.Film;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.impl.FilmDbStorage;
 
 import java.util.List;
@@ -12,8 +13,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class FilmService {
-
-    private final FilmDbStorage filmStorage;
+    private final FilmStorage filmStorage;
 
     public List<Film> getAllFilms() {
         return filmStorage.getAllFilms();

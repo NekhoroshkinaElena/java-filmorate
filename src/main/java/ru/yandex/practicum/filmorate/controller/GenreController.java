@@ -14,16 +14,15 @@ import java.util.List;
 @RestController
 @RequestMapping("genres")
 public class GenreController {
-
     private final GenreService genreService;
 
     @GetMapping
-    public List<Pair> getAllGenres() {
+    public List<Pair<Integer, String>> getAllGenres() {
         return genreService.getAllGenres();
     }
 
     @GetMapping("/{id}")
     public Pair<Integer, String> getGenreById(@PathVariable("id") int genreId) {
-       return genreService.getGenreById(genreId);
+        return genreService.getGenreById(genreId);
     }
 }

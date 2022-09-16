@@ -15,10 +15,10 @@ public class Film {
     private int rate;
     private Pair<Integer, String> mpa;
 
-    private List<Pair<Integer, String>> genres;
+    private Set<Pair<Integer, String>> genres;
 
     public Film(String name, String description, LocalDate releaseDate, long duration, int rate,
-                Pair<Integer, String> mpa, List<Pair<Integer, String>> genres) {
+                Pair<Integer, String> mpa, Set<Pair<Integer, String>> genres) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;

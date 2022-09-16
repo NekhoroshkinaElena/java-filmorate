@@ -12,10 +12,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class MPAService {
-
     private final MPAStorage mpaStorage;
 
-    public List<Pair> getAllMPA() {
+    public List<Pair<Integer, String>> getAllMPA() {
         return mpaStorage.getAllMPA();
     }
 
