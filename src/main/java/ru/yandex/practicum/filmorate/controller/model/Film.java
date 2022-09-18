@@ -14,7 +14,6 @@ public class Film {
     private long duration;
     private int rate;
     private Pair<Integer, String> mpa;
-
     private Set<Pair<Integer, String>> genres;
 
     public Film(String name, String description, LocalDate releaseDate, long duration, int rate,

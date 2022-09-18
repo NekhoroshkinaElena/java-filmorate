@@ -12,7 +12,7 @@ public class ValidateRatingMpa {
             log.error("рейтинг MPA не может быть пустым");
             throw new ValidationException("рейтинг MPA не может быть пустым");
         }
-        if (film.getMpa().id > 5 || film.getMpa().id < 0) {
+        if (film.getMpa().getId() > 5 || film.getMpa().getId() < 0) {
             log.error("некорректный id MPA рейтинга");
             throw new ValidationException("некорректный id MPA рейтинга");
         }

@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.storage.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -11,15 +10,12 @@ import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 import ru.yandex.practicum.filmorate.validation.ValidateUser;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-@Qualifier
 @Slf4j
 @RequiredArgsConstructor
 public class UserDbStorage implements UserStorage {
@@ -33,18 +29,16 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getUsers() {
-        String sql = "select * from users";
-        List<User> users = jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs));
-        if (users.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return users;
+        String sql = "SELECT * FROM users";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+        return makeUser(rowSet);
+
     }
 
     @Override
     public User createUser(User user) {
         ValidateUser.validateCreateUser(user);
-        if (jdbcTemplate.query("SELECT id from users",
+        if (jdbcTemplate.query("SELECT id FROM users",
                 (rs, rowNum) -> rs.getLong("id")).contains(user.getId())) {
             log.error("пользователь с таким номером уже существует");
             throw new ValidationException("пользователь с таким номером уже существует");
@@ -52,15 +46,14 @@ public class UserDbStorage implements UserStorage {
         String sql = "INSERT INTO users VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, currentId, user.getName(), user.getLogin(),
                 user.getBirthday(), user.getEmail());
-        user.setId(currentId);
-        getUniqueID();
+        user.setId(getUniqueID());
         return user;
     }
 
     @Override
     public User updateUser(User user) {
         ValidateUser.validateUpdateUser(user);
-        String sql = "UPDATE users SET name = ?, login = ?, birthday = ?, email = ? where id = ?";
+        String sql = "UPDATE users SET name = ?, login = ?, birthday = ?, email = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getName(), user.getLogin(),
                 user.getBirthday(), user.getEmail(), user.getId());
         return user;
@@ -77,16 +70,17 @@ public class UserDbStorage implements UserStorage {
     @Override
     public List<User> getListFriends(Long id) {
         ValidateUser.validateIdUser(id);
-        String sql = "SELECT * from friendship AS f " +
-                "INNER JOIN users AS u ON f.friend_id = u.id where f.user_id = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs), id);
+        String sql = "SELECT * FROM friendship f " +
+                "INNER JOIN users AS u ON f.friend_id = u.id WHERE f.user_id = ?";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, id);
+        return makeUser(rowSet);
     }
 
     @Override
     public void deleteFriend(long userId, long friendId) {
         ValidateUser.validateIdUser(userId);
         ValidateUser.validateIdUser(friendId);
-        String sql = "DELETE FROM friendship where user_id = ? and friend_id = ?";
+        String sql = "DELETE FROM friendship WHERE user_id = ? AND friend_id = ?";
         jdbcTemplate.update(sql, userId, friendId);
     }
 
@@ -99,34 +93,29 @@ public class UserDbStorage implements UserStorage {
                 "u.name," +
                 "u.birthday, " +
                 "u.id " +
-                " from friendship AS f " +
-                "INNER JOIN users AS u ON f.friend_id = u.id " +
-                "WHERE (f.user_id = ? or f.user_id = ?) and (f.friend_id != ? and f.friend_id != ?)";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs), id, otherId, id, otherId);
+                "FROM friendship f " +
+                "INNER JOIN users u ON f.friend_id = u.id " +
+                "WHERE (f.user_id = ? OR f.user_id = ?) AND (f.friend_id != ? AND f.friend_id != ?)";
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql, id, otherId, id, otherId);
+        return makeUser(sqlRowSet);
     }
 
     @Override
     public Optional<User> getUserById(long id) {
         ValidateUser.validateIdUser(id);
-        SqlRowSet userRows = jdbcTemplate.queryForRowSet("select * from users where id = ?", id);
-        if (userRows.next()) {
-            User user = new User(
-                    userRows.getString("email"),
-                    userRows.getString("login"),
-                    userRows.getString("name"),
-                    LocalDate.parse(userRows.getString("birthday"))
-
-            );
-            user.setId(id);
-            return Optional.of(user);
-        }
-        return null;
+        SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM users WHERE id = ?", id);
+        User user = makeUser(userRows).get(0);
+        return Optional.of(user);
     }
 
-    private User makeUser(ResultSet rs) throws SQLException {
-        User user = new User(rs.getString("email"), rs.getString("login"),
-                rs.getString("name"), LocalDate.parse(rs.getString(("birthday"))));
-        user.setId(rs.getLong("id"));
-        return user;
+    private List<User> makeUser(SqlRowSet rs) {
+        List<User> users = new ArrayList<>();
+        while (rs.next()) {
+            User user = new User(rs.getString("email"), rs.getString("login"),
+                    rs.getString("name"), LocalDate.parse(rs.getString(("birthday"))));
+            user.setId(rs.getLong("id"));
+            users.add(user);
+        }
+        return users;
     }
 }

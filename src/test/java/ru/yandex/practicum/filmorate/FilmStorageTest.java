@@ -152,12 +152,13 @@ public class FilmStorageTest {
         Film film = createTestFilm("film 1", "top", 2000, 100, 6, 1, 1);
         Film film2 = createTestFilm("film 2", "top2", 1998, 99, 9, 2, 2);
         Film film3 = createTestFilm("film 3", "top3", 1999, 98, 8, 3, 3);
-        assertThat(filmStorage.getTopFilms(2).get(0).getName()).isEqualTo("film 2");
-        assertThat(filmStorage.getTopFilms(2).get(1).getName()).isEqualTo("film 3");
+        assertThat(filmStorage.getTopFilms(3).get(0).getName()).isEqualTo("film 2");
+        assertThat(filmStorage.getTopFilms(3).get(1).getName()).isEqualTo("film 3");
         assertThat(filmStorage.getTopFilms(3).get(2).getName()).isEqualTo("film 1");
     }
 
-    public Film createTestFilm(String name, String description, int year, int duration, int rate, int idMpa, int idGenre) {
+    public Film createTestFilm(String name, String description, int year, int duration, int rate, int idMpa,
+                               int idGenre) {
         Pair<Integer, String> mpa = new Pair<>(idMpa, "id");
         Pair<Integer, String> genre = new Pair<>(idGenre, "id");
         Set<Pair<Integer, String>> genres = new LinkedHashSet<>();

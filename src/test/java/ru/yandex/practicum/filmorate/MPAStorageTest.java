@@ -36,8 +36,8 @@ public class MPAStorageTest {
 
     @Test
     public void getMpaById(){
-        assertThat(mpaStorage.getMpaById(5).name).isEqualTo("NC-17");
-        assertThat(mpaStorage.getMpaById(3).name).isEqualTo("PG-13");
+        assertThat(mpaStorage.getMpaById(5).getName()).isEqualTo("NC-17");
+        assertThat(mpaStorage.getMpaById(3).getName()).isEqualTo("PG-13");
     }
 
     @Test

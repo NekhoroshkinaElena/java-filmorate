@@ -8,8 +8,8 @@ import lombok.ToString;
 @ToString
 @Getter
 public class Pair<T, U> {
-    public final T id;
-    public final U name;
+    private final T id;
+    private final U name;
 
     public Pair(T id, U name) {
         this.id = id;

@@ -37,7 +37,7 @@ public class GenreStorageTest {
 
     @Test
     public void getGenreById(){
-        assertThat(genreDbStorage.getGenreById(3).name).isEqualTo("Мультфильм");
+        assertThat(genreDbStorage.getGenreById(3).getName()).isEqualTo("Мультфильм");
     }
 
     @Test
