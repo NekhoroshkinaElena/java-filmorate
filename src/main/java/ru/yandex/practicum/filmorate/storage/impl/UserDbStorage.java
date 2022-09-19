@@ -95,8 +95,8 @@ public class UserDbStorage implements UserStorage {
                 "u.id " +
                 "FROM friendship f " +
                 "INNER JOIN users u ON f.friend_id = u.id " +
-                "WHERE (f.user_id = ? OR f.user_id = ?) AND (f.friend_id != ? AND f.friend_id != ?)";
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql, id, otherId, id, otherId);
+                "WHERE f.user_id = ? AND f.friend_id != ?";
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql, id, otherId);
         return makeUser(sqlRowSet);
     }
 
