@@ -1,10 +1,9 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.controller.model;
 
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class Film {
@@ -14,21 +13,17 @@ public class Film {
     private LocalDate releaseDate;
     private long duration;
     private int rate;
-    private Set<Long> likes = new HashSet<>();
+    private Pair<Integer, String> mpa;
+    private Set<Pair<Integer, String>> genres;
 
-    public Film(String name, String description, LocalDate releaseDate, long duration, int rate) {
+    public Film(String name, String description, LocalDate releaseDate, long duration, int rate,
+                Pair<Integer, String> mpa, Set<Pair<Integer, String>> genres) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.rate = rate;
-    }
-
-    public void addLike(long userId) {
-        likes.add(userId);
-    }
-
-    public void deleteLike(long userId) {
-        likes.remove(userId);
+        this.mpa = mpa;
+        this.genres = genres;
     }
 }
